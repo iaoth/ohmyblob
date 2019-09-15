@@ -14,7 +14,7 @@ sprite flags
 grid = {{},{},{},{},{},{},{},{}}
 anim = {{},{},{},{},{},{},{},{}}
 hpmax = 12
-
+level = 0
 fadeindex=1
 
 screens = {

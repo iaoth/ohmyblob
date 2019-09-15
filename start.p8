@@ -9,7 +9,7 @@ fi=0
 
 function _update60()
 	if fi>=5.9 then
-		load("start.p8","quit to title")
+		load("omb.p8","quit to title")
 	elseif fi>0 then
 		fi+=0.04
 	elseif btn()!=0 then
@@ -45,7 +45,6 @@ function _draw()
 		end
 	end
 	map(0,0,0,0,16,16)
-	print(fi,0,0)
 
 	if fi==0 then
 		frame+=0.1

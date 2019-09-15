@@ -9,9 +9,7 @@ __lua__
 #include titlescreen.lua
 
 function _init()
-	level=14
-	level-=1
-	changescreen("levelstart")
+	changescreen("title")
 end
 
 
