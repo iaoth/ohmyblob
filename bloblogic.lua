@@ -165,7 +165,7 @@ end
 function processblobs()
 	for r=1,7 do
 		local blobs=collectblobs(r)
-		for k,m in pairs(blobs) do
+		for m in all(blobs) do
 			local c,b=m[1],m[2]
 --			printh("blob "..b.id.." "..b.t.." "..b.s)
 			if b.stun then
@@ -192,13 +192,21 @@ end
 
 function collectblobs(r)
 	local blobs={}
-	for i=-r,r do
+	local ids={}
+	for i=0,r do
 		for j=-r,r,2*r do
-			local coords={{knight[1]+i,knight[2]+j},
-				{knight[1]+j,knight[2]+i}}
+			local coords={
+				{knight[1]+i,knight[2]+j},
+				{knight[1]-i,knight[2]+j},
+				{knight[1]+j,knight[2]+i},
+				{knight[1]+j,knight[2]-i}
+			}
 			for c in all(coords) do
 				local obj=getblob(c)
-				if (obj) blobs[obj.id]={c,obj}
+				if obj and not ids[obj.id] then
+					add(blobs,{c,obj})
+					ids[obj.id]=true
+				end
 			end
 		end
 	end

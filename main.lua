@@ -333,7 +333,7 @@ function readlevel()
 			elseif band(flag,128)!=0 then
 				knight={x,y}
 				if spr2==33 then
-					hp=hpmax/2
+					hp=hpmax/2+1
 				elseif spr2==34 then
 					hp=2
 				end
