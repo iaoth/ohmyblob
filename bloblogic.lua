@@ -196,10 +196,10 @@ function collectblobs(r)
 	for i=0,r do
 		for j=-r,r,2*r do
 			local coords={
-				{knight[1]+i,knight[2]+j},
-				{knight[1]-i,knight[2]+j},
+				{knight[1]+j,knight[2]-i},
 				{knight[1]+j,knight[2]+i},
-				{knight[1]+j,knight[2]-i}
+				{knight[1]-i,knight[2]+j},
+				{knight[1]+i,knight[2]+j}
 			}
 			for c in all(coords) do
 				local obj=getblob(c)
