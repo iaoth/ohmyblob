@@ -205,7 +205,6 @@ screens.level.init=function()
 	frame=0
 	fadeindex=1
 	tick=0
-	blobcount=-1
 	pal()
 	music(lvlmusic,0,6)
 	drawknight=drawknight_alive
@@ -302,6 +301,7 @@ function readlevel()
 	hp=hpmax
 	activeportal=false
 	portal={0,0}
+	blobcount=-1
 
 	local my,mx=idiv(lvl,9)
 	mx*=14
