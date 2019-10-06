@@ -149,8 +149,8 @@ event_funcs.enemyturn = function()
 				if obj.typ=="heart" then
 					if (obj.age>1) then
 						grid[x][y]=nil
-						start_event("heartfall",(x-1)*16+9,(y-1)*16+3,true)
-						start_event("heartfall",(x-1)*16+17,(y-1)*16+3,false)
+						start_event("heartfall",(x-1)*16+1,(y-1)*16+3,true)
+						start_event("heartfall",(x-1)*16+9,(y-1)*16+3,false)
 					end
 				end
 				if obj.stun then
@@ -287,7 +287,7 @@ function blobattack(b,c)
 		yield()
 	end
 	hp-=1
-	start_event("heartfall",hp*4-2,0,hp%2==0)
+	start_event("heartfall",114+(hp%2)*5,flr(hp/2)*8,hp%2==0)
 	if hp>0 then
 		for i=6,0,-1 do
 			knightofs={v[1]*i,v[2]*i}
@@ -409,22 +409,25 @@ function split_to_pos(x,y,pos,ps,t)
 end
 
 event_funcs.destroyblob = function(c,b)
+	local t=b.t
 	yield()
 	grid[c[1]][c[2]]=nil
+	anim[c[1]][c[2]]=b
 	sfx(1)
+	b.t="glow"
 	for i=1,3 do
-		drawblob(c[1],c[2],{s=b.s,t="glow"})
 		yield()
 	end
 	for i=1,3 do
-		drawblob(c[1],c[2],b)
+		b.t="glow"
 		yield()
-		drawblob(c[1],c[2],{s=b.s,t="glow"})
+		b.t=t
 		yield()
 	end
 	for i=1,3 do
-		drawblob(c[1],c[2],b)
+		anim[c[1]][c[2]]=b
 		yield()
+		anim[c[1]][c[2]]=nil
 		yield()
 	end
 end

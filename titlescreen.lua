@@ -9,7 +9,7 @@ screens.title.init=function()
 	blwidth=112
 	lastknight=0
 	level=level or 0
-	levelmax=35
+	levelmax=32
 	selected=nil
 	frame=0
 	menuitem(1)
@@ -80,7 +80,7 @@ screens.title.draw=function()
 	palt(0,false)
 	palt(1,false)
 
-	camera(-mx+8,0)
+	camera(-mx,0)
 	drawbackground(128)
 
 	palt()

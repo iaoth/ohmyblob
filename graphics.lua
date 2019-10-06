@@ -66,7 +66,7 @@ function drawbackground(width,height)
 	palt(0,false)
 	for x=0,w,16 do
 		for y=0,h,16 do
-			spr(64,x+8,y,2,2)
+			spr(64,x,y,2,2)
 		end
 	end
 	palt()
@@ -78,14 +78,14 @@ function drawobject(obj,x,y)
 		drawblob(x,y,obj)
 	elseif obj.typ=="heart" then
 		spr(32,
-			(x-1)*16+13+sin(musictick/160)*3,
+			(x-1)*16+5+sin(musictick/160)*3,
 			(y-1)*16+2+sin(musictick/80)*1,
 			1,1)
 	elseif obj.spr then
-		sprt(obj.spr,(x-1)*16+8,(y-1)*16,2,2)
+		sprt(obj.spr,(x-1)*16,(y-1)*16,2,2)
 	end
 	if obj.hat then
-		sprt(obj.hat,(x-1)*16+8,(y-2)*16,2,2)
+		sprt(obj.hat,(x-1)*16,(y-2)*16,2,2)
 	end
 end
 
@@ -93,7 +93,7 @@ function drawknight_alive()
 	local s=42
 	if (knightmoving) s=12+frame
 	spr(s,
-		(knight[1]-1)*16+knightofs[1]+8,
+		(knight[1]-1)*16+knightofs[1],
 		(knight[2]-1)*16+knightofs[2]-4,
 		2, 2
 	)
@@ -102,13 +102,13 @@ end
 function drawknight_dead()
 	local s=44
 	if (musictick>130 or musictick<0) s=46
-	spr(s,(knight[1]-1)*16+knightofs[1]+8,
+	spr(s,(knight[1]-1)*16+knightofs[1],
 		(knight[2]-1)*16+knightofs[2]-4,2,2)
 end
 
 function drawportal()
     local f=flr(time()*7)%4
-	spr(96+2*f,(portal[1]-1)*16+8,(portal[2]-1)*16,2,2)
+	spr(96+2*f,(portal[1]-1)*16,(portal[2]-1)*16,2,2)
 end
 
 function fadepal(index)
@@ -139,7 +139,7 @@ end
 
 function drawblob(x,y,b)
 	local o=b.o or {0,0}
-	local sx,sy=(x-1)*16+o[1]+8,(y-1)*16+o[2]-4
+	local sx,sy=(x-1)*16+o[1],(y-1)*16+o[2]-4
 	palswap(gettrait(b,"col"))
 	if b.s>3 then
 		if (frame1==0) palswap(blobtraits.glow.col)

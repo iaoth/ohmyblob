@@ -59,34 +59,28 @@ function knightwarp()
 	while fadeframe>0 do yield() end
 	local maxr=11
 	sfx(34)
+	local cx,cy=(knight[1]-1)*16+knightofs[1]+8,
+		(knight[2]-1)*16+knightofs[2]+4
 	for i=0,maxr,0.4 do
-		circfill((knight[1]-1)*16+knightofs[1]+16,
-			(knight[2]-1)*16+knightofs[2]+4,
-			i,7)
+		circfill(cx,cy,i,7)
 		yield()
 	end
 	for i=1,6,0.15 do
-		circfill((knight[1]-1)*16+knightofs[1]+16,
-			(knight[2]-1)*16+knightofs[2]+4,
-			maxr,7)
+		circfill(cx,cy,maxr,7)
 		for c=1,15 do pal(c,fadeout[7][flr(i)]) end
 		drawknight_alive()
 		pal()
 		yield()
 	end
 	for i=6,1,-0.15 do
-		circfill((knight[1]-1)*16+knightofs[1]+16,
-			(knight[2]-1)*16+knightofs[2]+4,
-			maxr,7)
+		circfill(cx,cy,maxr,7)
 		fadepal(flr(i))
 		drawknight_alive()
 		pal()
 		yield()
 	end
 	for i=maxr,0,-0.4 do
-		circfill((knight[1]-1)*16+knightofs[1]+16,
-			(knight[2]-1)*16+knightofs[2]+4,
-			i,7)
+		circfill(cx,cy,i,7)
 		drawknight_alive()
 		yield()
 	end
@@ -118,6 +112,9 @@ screens.victory.update=function()
 	musictick = stat(26)
 	tick+=1
 	if musictick>496 then
+		if level==33 then
+			changescreen("varvat")
+		end
 		level+=1
 		changescreen("levelstart")
 	end
@@ -243,7 +240,7 @@ screens.level.update=function()
 			blobcount=0
 			for x=1,7 do
 				for y=1,8 do
-					if (grid[x][y] and grid[x][y].typ=="blob") blobcount+=1
+					if (grid[x][y] and grid[x][y].typ=="blob") blobcount+=grid[x][y].s
 				end
 			end
 		end
@@ -256,6 +253,30 @@ end
 
 screens.level.draw=function()
 	cls()
+
+	rectfill(116,0,124,127,1)
+
+	for i=0,8 do
+		if (i*3>=blobcount) break
+		local s=50
+		if (i*3+3>blobcount) s=47+blobcount-i*3
+		spr(s,117,120-i*9,1,1)
+	end
+
+	for i=0,hpmax-1,2 do
+		local s=32
+		if i>=hp then
+			s=34
+		elseif i+1==hp then
+			s=33
+		end
+		spr(s,117,i*4,1,1)
+	end
+
+	rectfill(113,0,115,127,2)
+	rectfill(114,0,114,127,4)
+	rectfill(125,0,127,127,2)
+	rectfill(126,0,126,127,4)
 
 	drawbackground()
 
@@ -275,15 +296,10 @@ screens.level.draw=function()
 		end
 	end
 
-	for i=0,hpmax-1,2 do
-		local s=32
-		if i>=hp then
-			s=34
-		elseif i+1==hp then
-			s=33
-		end
-		spr(s,i*4,0,1,1)
-	end
+	-- if knightmoving then
+	-- 	spr(51,120,0,1,1)
+	-- end
+
 end
 
 --game logic
@@ -301,7 +317,7 @@ function readlevel()
 	hp=hpmax
 	activeportal=false
 	portal={0,0}
-	blobcount=-1
+	blobcount=0
 
 	local my,mx=idiv(lvl,9)
 	mx*=14
@@ -330,6 +346,7 @@ function readlevel()
 				local t=spr2+1
 				if (t>#blobtypes or blobtypes[t]=="glow") t=1
 				spawnblob(x,y,s,blobtypes[t])
+				blobcount+=s
 			elseif band(flag,128)!=0 then
 				knight={x,y}
 				if spr2==33 then
