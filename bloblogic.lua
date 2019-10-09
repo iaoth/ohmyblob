@@ -58,8 +58,6 @@ blobtraits = {
 	}
 }
 
-mergetier = {[0]="blue", [1]="green", [2]="red", [3]="shadow", [4]="shadow", [5]="blue"}
-
 function gettrait(b,trait)
 	if b and b.t and blobtraits[b.t][trait]!=nil then
 		return blobtraits[b.t][trait]
@@ -69,7 +67,7 @@ end
 
 blobid=0
 
-function spawnblob(x,y,s,t,status)
+function spawnblob(x,y,s,t,ob)
 	if (grid_bounds({x,y})) return
 	local size=s
 	local b=grid[x][y]
@@ -78,9 +76,9 @@ function spawnblob(x,y,s,t,status)
 		size+=b.s
 	end
 
-	local nb=b or status or {}
-	if (b and status) orall(nb,status)
-	orall(nb,{s=size,t=t,o={0,0},typ="blob"})
+	local nb=b or ob or {}
+	if (b and ob) coalesce(nb,ob)
+	coalesce(nb,{s=size,t=t,o={0,0},typ="blob"})
 	if not nb.id then
 		blobid+=1
 		nb.id=blobid

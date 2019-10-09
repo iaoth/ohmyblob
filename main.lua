@@ -295,11 +295,6 @@ screens.level.draw=function()
 			drawknight()
 		end
 	end
-
-	-- if knightmoving then
-	-- 	spr(51,120,0,1,1)
-	-- end
-
 end
 
 --game logic
@@ -403,9 +398,7 @@ end
 event_funcs.moveknight = function(v)
 	yield()
 	for i=1,16 do
-		for j=1,2 do
-			knightofs[j]=i*v[j]
-		end
+		knightofs={i*v[1],i*v[2]}
 		yield()
 	end
 	knightofs={0,0}

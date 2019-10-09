@@ -121,8 +121,8 @@ function logoanim()
 	blwidth=112
 
 	while ly[1]<0 do
-			ly[1]+=3
-			yield()
+		ly[1]+=3
+		yield()
 	end
 	ly[1]=0
 	sfx(26)
