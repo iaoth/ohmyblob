@@ -112,8 +112,8 @@ screens.victory.update=function()
 	musictick = stat(26)
 	tick+=1
 	if musictick>496 then
-		if level==33 then
-			changescreen("varvat")
+		if level==32 then
+			load("gameover.p8")
 		end
 		level+=1
 		changescreen("levelstart")

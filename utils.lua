@@ -1,3 +1,12 @@
+function center(str,y,col,wide)
+	local x=64-#str*2-(wide or 0)*2
+	print(str,x-1,y,0)
+	print(str,x+1,y,0)
+	print(str,x,y-1,0)
+	print(str,x,y+1,0)
+	print(str,x,y,col)
+end
+
 function poll_input()
 	if (btn(0)) return {-1,0}
 	if (btn(1)) return {1,0}

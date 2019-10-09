@@ -25,15 +25,6 @@ firecol={
     {[8]=2,[9]=8,[10]=9,[7]=10}
 }
 
-function center(str,y,col,wide)
-	local x=64-#str*2-(wide or 0)*2
-	print(str,x-1,y,0)
-	print(str,x+1,y,0)
-	print(str,x,y-1,0)
-	print(str,x,y+1,0)
-	print(str,x,y,col)
-end
-
 spritefire={}
 fireframe=0
 
