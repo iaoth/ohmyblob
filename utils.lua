@@ -28,16 +28,6 @@ function idiv(num,div)
 	return q,r
 end
 
-function sortby(a,key)
-	for i=1,#a do
-		local j=i
-		while j>1 and a[j-1][key]>a[j][key] do
-			a[j],a[j-1] = a[j-1],a[j]
-			j=j-1
-		end
-	end
-end
-
 function equals(o1,o2)
 	if (type(o1)!=type(o2)) return false
 	if (type(o1)!="table") return o1==o2
@@ -52,10 +42,6 @@ function copy(obj)
 	local res = {}
 	for k,v in pairs(obj) do res[copy(k)] = copy(v) end
 	return res
-end
-
-function addall(t1,t2)
-	for k,v in pairs(t2) do t1[k]=v end
 end
 
 function coalesce(t1,t2)
