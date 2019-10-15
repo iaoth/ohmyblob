@@ -327,6 +327,9 @@ event_funcs.explode=function(c,b,v,ct)
 	local x,y,t=c[1],c[2],(ct or b.t)
 	local ri=1+abs((knight[1]-c[1])-(knight[2]-c[2]))%2
 	yield()
+
+	if (getblob(c)!=b) return
+
 	local ps,bs={0,0,0,0,0},b.s
 	local rot={{{1,0},{-1,0},{0,-1},{0,1}},
 		{{1,1},{-1,-1},{-1,1},{1,-1}}}
@@ -339,7 +342,7 @@ event_funcs.explode=function(c,b,v,ct)
 		test_pos_list(x,y,rot[3-ri],pos)
 	end
 
-	if bs>4 then
+	if bs>4 and #pos<5 then
 		add(pos,{0,0})
 	end
 
@@ -352,8 +355,8 @@ event_funcs.explode=function(c,b,v,ct)
 
 	-- split up blob mass over the target positions
 	while bs>0 do
-		for i=1,#pos do
-			ps[i]+=1
+		for i=1,min(#pos,#ps) do
+			if (ps[i]<2) ps[i]+=1
 			bs-=1
 			if (bs==0) break
 		end
@@ -387,17 +390,18 @@ event_funcs.split = function(c,b,v,ct)
 end
 
 function split_to_pos(x,y,pos,ps,t)
-	for j=1,#pos do
+	local n=min(#pos,#ps)
+	for j=1,n do
 		anim[x+pos[j][1]][y+pos[j][2]] =
 			{typ="blob",s=ps[j],t=t,stun=1,o={-16*pos[j][1],-16*pos[j][2]}}
 	end
 	for i=16,0,-2 do
-		for j=1,#pos do
+		for j=1,n do
 			anim[x+pos[j][1]][y+pos[j][2]].o={-i*pos[j][1],-i*pos[j][2]}
 		end
 		yield()
 	end
-	for j=1,#pos do
+	for j=1,n do
 		local bx,by=x+pos[j][1],y+pos[j][2]
 		local b
 		b,anim[bx][by]=anim[bx][by],nil
